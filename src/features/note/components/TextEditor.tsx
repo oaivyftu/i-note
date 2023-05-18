@@ -59,7 +59,8 @@ interface UpdateNoteArgs {
 
 async function createNote({ setNoteList }: Pick<UpdateNoteArgs, "setNoteList">) {
   try {
-    await apiNoteService.createNewNote({ content: "", text: "" })
+    const userId = Number(localStorage.getItem("userId"))
+    await apiNoteService.createNewNote({ userId, content: "", text: "" })
     const { data: newNoteList } = await apiNoteService.getNoteList()
     setNoteList(newNoteList)
   } catch (e: unknown) {

@@ -2,10 +2,12 @@ import styled from "styled-components"
 import Icon from "../../../components/Icon"
 import downloadIcon from "../../../static/download.png"
 import deleteIcon from "../../../static/delete.png"
+import logoutIcon from "../../../static/logout.png"
 import Button from "../../../components/Button"
 import apiNoteService from "../../../services/ApiNoteService"
 import { useContext } from "react"
 import { NoteContext } from "../index"
+import { useHistory } from "react-router-dom"
 
 const Wrapper = styled.div`
   grid-area: 1 / 2 / 2 / 3;
@@ -16,11 +18,13 @@ const Wrapper = styled.div`
 `
 
 function ToolBar() {
+  const { push } = useHistory()
   const { curNoteIndex, noteList, setShouldFromHTML, setNoteList, setCurNoteIndex } =
     useContext(NoteContext)
   const onCreateNote = async () => {
     try {
-      const { data } = await apiNoteService.createNewNote({ content: "", text: "" })
+      const userId = Number(localStorage.getItem("userId"))
+      const { data } = await apiNoteService.createNewNote({ userId, content: "", text: "" })
       setNoteList([data, ...noteList])
       setCurNoteIndex(0)
       setShouldFromHTML(true)
@@ -44,6 +48,10 @@ function ToolBar() {
       alert(error.message)
     }
   }
+  const onLogout = () => {
+    localStorage.clear()
+    push("/auth/login")
+  }
   return (
     <Wrapper>
       <Button onClick={onCreateNote}>
@@ -51,6 +59,9 @@ function ToolBar() {
       </Button>
       <Button disabled={!noteList.length} onClick={onDeleteNote}>
         <Icon src={deleteIcon} />
+      </Button>
+      <Button onClick={onLogout}>
+        <Icon src={logoutIcon} />
       </Button>
     </Wrapper>
   )

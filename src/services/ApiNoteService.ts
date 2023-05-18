@@ -6,7 +6,8 @@ const featureUrl = "notes"
 
 export default {
   async getNoteList(): Promise<AxiosResponse<NoteItem[]>> {
-    return await http.get(`${featureUrl}/`)
+    const userId = localStorage.getItem("userId")
+    return await http.get(`${featureUrl}/?userId=${userId}`)
   },
   async createNewNote(payload: NoteInput): Promise<AxiosResponse<NoteItem>> {
     return await http.post(`${featureUrl}/`, payload)

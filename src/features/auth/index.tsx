@@ -1,4 +1,4 @@
-import { Route, Switch, useRouteMatch } from "react-router-dom"
+import { Redirect, Route, Switch, useRouteMatch } from "react-router-dom"
 import Login from "./components/Login"
 import Register from "./components/Register"
 import styled from "styled-components"
@@ -7,14 +7,18 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 `
 function Auth() {
   const { path } = useRouteMatch()
-  console.log(path)
+  const token = localStorage.getItem("token")
+  if (token) {
+    return <Redirect to="/" />
+  }
   return (
     <Wrapper>
       <Switch>
-        <Route path={`${path}/login`}>
+        <Route exact path={`${path}/login`}>
           <Login />
         </Route>
         <Route path={`${path}/register`}>
