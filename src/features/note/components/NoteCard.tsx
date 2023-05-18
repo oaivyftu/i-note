@@ -8,8 +8,6 @@ const noBorderBottom = css`
 
 const Wrapper = styled.div<Pick<NoteCardProps, "active">>`
   padding: 10px 15px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   position: relative;
   border-radius: 6px;
   background-color: transparent;
@@ -34,24 +32,30 @@ const Wrapper = styled.div<Pick<NoteCardProps, "active">>`
     bottom: 0;
     background-color: #ddd;
   }
+
+  p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 `
 
 interface NoteCardProps {
   title: string
-  timestamp: Date
+  timeInfo: string
   excerpt: string
   active?: boolean
   onClick?(): void
 }
 
-function NoteCard({ title, excerpt, timestamp, active, onClick }: NoteCardProps) {
+function NoteCard({ title, excerpt, timeInfo, active, onClick }: NoteCardProps) {
   return (
     <Wrapper active={active} onClick={() => onClick?.()}>
       <p>
-        <b>Title here</b>
+        <b>{title || "New Note"}</b>
       </p>
       <p>
-        <span>08:10</span> Excerpt here...
+        <span>{timeInfo}</span> {excerpt || "No additional text"}
       </p>
     </Wrapper>
   )
