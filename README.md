@@ -1,6 +1,6 @@
 # iNote
 
-iNote is an application that mimics Apple Notes on MacOS. This is the client codebase.
+iNote is an application that mimics Apple Notes on MacOS. This is the client codebase. This is now deployed on the Render cloud platform: https://i-note-client.onrender.com/.
 
 ## Installation
 
@@ -21,6 +21,12 @@ npm run build
 
 # Launches the test runner in the interactive watch mode.
 npm run test
+
+# Fixes lint errors
+npm run lint:fix
+
+# Beautify the code
+npm run beautify
 ```
 
 ## Contributing
