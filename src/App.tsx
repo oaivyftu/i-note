@@ -1,5 +1,5 @@
 import React from "react"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import Note from "./features/note"
 import ErrorBoundary from "./components/ErrorBoundary"
 import Auth from "./features/auth"
