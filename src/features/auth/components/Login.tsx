@@ -7,18 +7,22 @@ import { useFormState } from "../hooks/useFormState"
 import { AxiosError } from "axios"
 
 function Login() {
-  const { username, password, setUsername, setPassword } = useFormState()
+  const { username, password, isSubmitting, setUsername, setPassword, setIsSubmitting } =
+    useFormState()
   const { push } = useHistory()
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
     try {
+      setIsSubmitting(true)
       await ApiAuthService.login({ username, password })
       push("/")
     } catch (e) {
       const error = e as AxiosError
       alert(error.response?.data)
+    } finally {
+      setIsSubmitting(false)
     }
   }
   return (
@@ -36,7 +40,7 @@ function Login() {
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </FormRow>
         <SubmitRow>
-          <button type="submit">Submit</button>
+          <button type="submit">{isSubmitting ? "Submitting..." : "Submit"}</button>
         </SubmitRow>
       </form>
       <p>

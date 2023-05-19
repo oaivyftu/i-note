@@ -6,20 +6,23 @@ import ApiAuthService from "../../../services/ApiAuthService"
 import { FormRow, HeaderRow, SubmitRow, Wrapper } from "./commonStyles"
 
 function Register() {
-  const { username, password, setUsername, setPassword } = useFormState()
+  const { username, password, isSubmitting, setUsername, setPassword, setIsSubmitting } =
+    useFormState()
   const { push } = useHistory()
   const { url } = useRouteMatch()
-  console.log(url)
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
     try {
+      setIsSubmitting(true)
       await ApiAuthService.register({ username, password })
       alert("Register successfully!")
       push("/auth/login")
     } catch (e) {
       const error = e as Error
       alert(error.message)
+    } finally {
+      setIsSubmitting(false)
     }
   }
   return (
@@ -37,7 +40,7 @@ function Register() {
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </FormRow>
         <SubmitRow>
-          <button type="submit">Submit</button>
+          <button type="submit">{isSubmitting ? "Submitting..." : "Submit"}</button>
         </SubmitRow>
       </form>
     </Wrapper>
