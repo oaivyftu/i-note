@@ -1,15 +1,14 @@
-import styled, { css } from "styled-components"
-import { Link, useHistory, useRouteMatch } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { useFormState } from "../hooks/useFormState"
 import { FormEvent } from "react"
 import ApiAuthService from "../../../services/ApiAuthService"
 import { FormRow, HeaderRow, SubmitRow, Wrapper } from "./commonStyles"
+import { AxiosError } from "axios"
 
 function Register() {
   const { username, password, isSubmitting, setUsername, setPassword, setIsSubmitting } =
     useFormState()
   const { push } = useHistory()
-  const { url } = useRouteMatch()
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
@@ -19,8 +18,8 @@ function Register() {
       alert("Register successfully!")
       push("/auth/login")
     } catch (e) {
-      const error = e as Error
-      alert(error.message)
+      const error = e as AxiosError
+      alert(error?.response?.data)
     } finally {
       setIsSubmitting(false)
     }
@@ -40,9 +39,14 @@ function Register() {
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </FormRow>
         <SubmitRow>
-          <button type="submit">{isSubmitting ? "Submitting..." : "Submit"}</button>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Submitting..." : "Submit"}
+          </button>
         </SubmitRow>
       </form>
+      <p>
+        Back to Login <Link to={"/auth/login"}>here</Link>.
+      </p>
     </Wrapper>
   )
 }

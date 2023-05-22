@@ -1,5 +1,4 @@
-import styled, { css } from "styled-components"
-import { Link, useHistory, useRouteMatch } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import { FormRow, HeaderRow, SubmitRow, Wrapper } from "./commonStyles"
 import { FormEvent } from "react"
 import ApiAuthService from "../../../services/ApiAuthService"
@@ -40,7 +39,9 @@ function Login() {
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         </FormRow>
         <SubmitRow>
-          <button type="submit">{isSubmitting ? "Submitting..." : "Submit"}</button>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Submitting..." : "Submit"}
+          </button>
         </SubmitRow>
       </form>
       <p>
